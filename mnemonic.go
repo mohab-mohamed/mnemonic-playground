@@ -1,10 +1,11 @@
 package main
 
 import (
-	"bytes"
+	"strings"
 	"crypto/rand"
 	"fmt"
 )
+
 
 func main() {
 	c := 32
@@ -14,9 +15,16 @@ func main() {
 		fmt.Println("error:", err)
 		return
 	}
-	fmt.Println(rand.Read(b))
-	// The slice should now contain random bytes instead of only zeroes.
-	fmt.Println(b)
-	fmt.Println(bytes.Equal(b, make([]byte, c)))
+	var sb strings.Builder
+	for i, n := range(b) {
+		fmt.Println(i)
+		binary := fmt.Sprintf("%b", n) // prints 00000000 11111101
+		fmt.Println(binary)
+		fmt.Printf("%d\n\n", n)
+		sb.WriteString(binary)
+    	}
+	entropy := sb.String()
+	fmt.Println()
+	fmt.Println(entropy)
 
 }

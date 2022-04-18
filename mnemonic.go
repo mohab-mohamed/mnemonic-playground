@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strconv"
 	"strings"
 	"crypto/rand"
 	"fmt"
@@ -26,5 +27,15 @@ func main() {
 	entropy := sb.String()
 	fmt.Println()
 	fmt.Println(entropy)
+
+	output, err := strconv.ParseInt(entropy[:11], 2, 64)  
+	if err != nil {  
+	fmt.Println(err)  
+	return  
+	}  
+	
+	fmt.Println()
+	fmt.Println(entropy[:11])
+	fmt.Printf("Output %d\n", output)  
 
 }

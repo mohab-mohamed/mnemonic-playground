@@ -112,7 +112,10 @@ func main() {
 	fmt.Println("sha256 hash: ", hashString, len(hashString))
 	withChecksum := AddChecksum(entropy, hashString)
 	fmt.Println("entropy + checksum: ", withChecksum, len(withChecksum))
-	fmt.Println("chunks: ", Chunks(withChecksum, 11))
-	wordArray, err := ReadLines("wordlist.txt")
-	fmt.Println("word array: ", len(wordArray))
+	chunks := Chunks(withChecksum, 11)
+	fmt.Println("chunks: ", chunks)
+	wordList, err := ReadLines("wordlist.txt")
+	fmt.Println("word array: ", len(wordList))
+	mnemonicSentence := GetMnemonic(chunks, wordList)
+	fmt.Println("mnemonic sentence: ", mnemonicSentence, "word count: ", len(mnemonicSentence))
 }

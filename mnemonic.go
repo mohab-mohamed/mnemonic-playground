@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "strconv"
+	"strconv"
 	"strings"
 	"crypto/rand"
 	"crypto/sha256"
@@ -71,21 +71,23 @@ func ReadLines(path string) ([]string, error) {
 
 // readLines reads a whole file into memory
 // and returns a slice of its lines.
-func BitStringToNumber(bitString string) ([]string, error) {
-	file, err := os.Open(path)
-	if err != nil {
-	    return nil, err
-	}
-	defer file.Close()
-    
-	var lines []string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-	    lines = append(lines, scanner.Text())
-	}
-	return lines, scanner.Err()
+func BitStringToNumber(bitString string) (int64, error) {
+	output, err := strconv.ParseInt(bitString, 2, 64)  
+	if err != nil {  
+		fmt.Println(err)  
+		return -1, err 
+	} 
+	return output, err 
 }
 
+func GetMnemonic(chunks []string, wordList []string) []string {
+	var sentence []string
+	for _, chunk := range(chunks) {
+		num, _ := BitStringToNumber(chunk)
+		sentence = append(sentence, wordList[num])
+	}
+	return sentence
+}
 
 
 func main() {
@@ -100,12 +102,6 @@ func main() {
 	entropy := ByteArrayToBitString(b)
 	fmt.Println()
 	fmt.Println("entropy: ", entropy, len(entropy))
-
-	// output, err := strconv.ParseInt(entropy[:11], 2, 64)  
-	// if err != nil {  
-	// fmt.Println(err)  
-	// return  
-	// }  
 	
 	// fmt.Println()
 	// fmt.Println(entropy[:11])
